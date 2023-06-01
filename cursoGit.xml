@@ -1,0 +1,404 @@
+<?xml version="1.0"?>
+<comandosGit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="cursoGit.xsd">
+    <comandosConfig>
+        <comando>
+            <texto>git --version</texto>
+            <explicacion>
+                Nos dice la versión de Git instalada
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config --global user.name "Alvaro Anton"</texto>
+            <explicacion>
+                Para poner a Alvaro Anton como usuario global, no de un proyecto en concreto.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config --global user.email alvaro.anton.navarrete@gmail.com</texto>
+            <explicacion>
+                Para poner a alvaro.anton.navarrete@gmail.com como email del usuario global, no de un proyecto en concreto.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config --global core.editor "code --wait"</texto>
+            <explicacion>
+                Para establecer el visual studio code como editor de texto por defecto. --wait indica a la terminal que se quede quieta hasta que
+                cerremos el editor de texto.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config --global -e</texto>
+            <explicacion>
+                Para abrir el archivo de configuración global, que en este caso se abrirá en visual studio code porque lo hemos establecido como
+                editor de texto por defecto.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config --global core.autocrlf true</texto>
+            <explicacion>
+                Para configurar Git de manera que trate los saltos de línea como se hace en Windows. Si fuera Mac o Linux se escribiría "input" en lugar de "true".
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git config -h</texto>
+            <explicacion>
+                Da un resumen de lo que se puede añadir a la congifuración de Git.
+            </explicacion>
+        </comando>
+    </comandosConfig>
+    
+    <comandosGenerales>
+        <comando>
+            <texto>ls</texto>
+            <explicacion>
+                Permite listar todos los archivos y carpetas que estén en un determinado directorio, salvo los archivos ocultos. En este caso el comando se refiere al
+                directorio en el que estamos en este momento.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>ls -a</texto>
+            <explicacion>
+                Muestra los archivos ocultos que no salían con el comando "ls" normal.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>pwd</texto>
+            <explicacion>
+                Nos dice la carpeta (si es Windows) o directorio (si es Mac o Linux) en el que estamos actualmente. Significa "print working directory".
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>cd</texto>
+            <explicacion>
+                Permite cambiar de carpeta/directorio. Después de "cd" se escribe el nombre de la carpeta a la que se quiere cambiar, si se escribe ".." es que se quiere
+                volver al directorio padre en la jerarquía.
+            </explicacion>
+            <ejemplo>cd workspace</ejemplo>
+            <ejemplo>cd ..</ejemplo>
+            <ejemplo>cd .git</ejemplo>
+        </comando>
+
+        <comando>
+            <texto>mkdir</texto>
+            <explicacion>
+                Crea un nuevo directorio. Después del comando se pone el nombre que se le quiere dar al nuevo directorio.
+            </explicacion>
+        </comando>
+
+        <comando>
+            <texto>git init</texto>
+            <explicacion>
+                Para inicializar un proyecto gestionado con Git. Se ejecuta en el directorio en el que estamos actualmente. Se crea un directorio ".git", ese "."
+                significa que es un archivo oculto y no va a aparecer al ejecutar el comando "ls", para que aparezca se necesita "la -a". Al ejecutarse "ls -a" sobre
+                nuestro directorio ".git" se muestran todos los archivos que se utiliza en Git para gestionar nuestros proyectos. Todos los commit y todo se almacenará
+                aquí, en el ".git". Esto es un detalle de "implementación". 
+
+                La carpeta ".git" generalmente se va a ignorar a la hora de crear repositorios y en una empresa no se va a enviar un servidor central.
+            </explicacion>
+        </comando>
+    </comandosGenerales>
+
+    <flujoGit definicion="El flujo de trabajo que hay que seguir cuando trabajemos con Git">
+        <etapas>
+            <etapa>
+                <nombre>Computador</nombre>
+                <explicacion>
+                    Cuando trabajemos en el ordenador podremos agregar y modificar todos los archivos que queramos, pero no implica por si solo que estos archivos se
+                    vayan a agregar a un repositorio. Para agregar a un repositorio hace falta el comando "git add". Lo que hace ese comando es seleccionar los archivos
+                    que queremos agregar a la etapa siguiente, que se llama "stage".
+
+                    IMPORTANTE: si nosotros eliminamos un archivo en el ordenador, también tenemos que ejecutar el comando "git add" y seguir el flujo de trabajo de Git
+                    porque es un cambio que tenemos que comprometer para que se vea reflejado en el repositorio. Es decir, si eliminamos el archivo archivo2.txt con el
+                    comando "rm archivo2.txt", y ese archivo estaba en la fase "Stage", debemos ejecutar una vez más el comando "git add archivo2.txt" para que el borrado
+                    se vea reflejado en el repositorio. Después se hará el commit con el comando "git commit -m "Eliminando el archivo 2"".
+                </explicacion>        
+            </etapa>
+
+            <etapa>
+                <nombre>Stage</nombre>
+                <explicacion>
+                    Es una etapa intermedia donde se hacen los cambios que queremos que se vean reflejados eventualmente en el repositorio. No todos los cambios van a
+                    verse reflejados en el repositorio, solo los que nosotros seleccionemos. Los que no queremos que acaben en el repositorio los podremos sacar, pero
+                    cuando tengamos claro con cuáles nos quedamos, podemos pasar a la siguiente etapa ejecutando el comando "git commit".
+
+                    Hay que tener en cuenta una cosa: supongamos que tenemos dos archivos: archivo1.txt con el texto "Chanchito feliz" y archivo2.txt con el texto
+                    "Chanchito triste". Supongamos que ejecutamos el comando "git add archivo1.txt archivo2.txt". Esto hará que ambos pasen a la fase "Stage", pero
+                    si más tarde hacemos cambios al archivo2.txt, por ejemplo cambiándolo a "Chanchito feliz", al ejecutar "git status" veremos que en los archivos
+                    de la fase "Stage", saldrán archivo1.txt y archivo2.txt, y también saldrá archivo2.txt entre los archivos que no pasaron a la fase "Stage". Lo que
+                    está ocurriendo es que en la fase "Stage" está la versión de archivo2.txt que subimos a esa fase, pero no la posterior, porque no llegamos a
+                    ejecutar el comando "git add archivo2.txt" después de modificar ese archivo. En resumen, en verde saldrá la versión del archivo2.txt que contenga
+                    el texto "Chanchito triste", mientras que en rojo saldrá la versión de ese archivo que contenga el texto "Chanchito feliz". Esto sirve para ilustrar
+                    cómo Git trabaja con las versiones distintas de los archivos, y de cómo se preparan las distinas versiones para hacer un "commit". Para cambiar esta
+                    situación habría que volver a ejecutar un "git add archivo2.txt", en cuyo caso se actualizaría la versión de ese archivo en la fase "Stage" y la
+                    versión anterior desaparecería. Esto indica cómo lo que se agrega a la fase "Stage" son cambios.
+                </explicacion>
+            </etapa>
+
+            <etapa>
+                <nombre>Commit</nombre>
+                <explicacion>
+                    Aquí están los cambios que hemos comprometido. Una vez aquí podemos subirlos a la nube/servidor, que probablemente va a ser gitHub. El comando para
+                    subirlos al servidor es "git push".
+                </explicacion>
+            </etapa>
+
+            <etapa>
+                <nombre>Server</nombre>
+                <explicacion>
+                    Es el servidor en el que se guardan los archivos, generalmente suele ser gitHub.
+                </explicacion>
+            </etapa>
+        </etapas>
+
+        <comandos>
+            <comando>
+                <texto>code .</texto>
+                <explicacion>
+                    Hace que visual studio code abra la carpeta en la que estamos actualmente, que se simboliza con el ".". Al hacerlo, podremos ver que visual studio
+                    code abre la carpeta, que en este caso sería "miWeb".
+
+                    Una vez en visual studio code, agregamos un nuevo archivo, la extensión no importa porque Git lo puede manejar todo. En este caso creamos el archivo
+                    "archivo1.txt" como ejemplo, y escribimos "chanchito feliz".
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git status</texto>
+                <explicacion>
+                    Nos da un resumen del estado de los archivos del proyecto. Nos dice si ha habido commits, y los archivos a los que no se ha aplicado el comando
+                    "git add", y por lo tanto no han pasado a la fase "stage", los llama "untracked files". Los archivos a los que se les ha aplicado el comando
+                    "git add" salen en verde bajo el apartado "changes to be committed".
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git status -s</texto>
+                <explicacion>
+                    Da una versión resumida del resultado que sale al ejecutar "git status". Saca un listado de archivos, y si sale una "M" a la izquierda, significa
+                    que el archivo ha sido modificado, y si sale una "A" es que lo estamos agregando. Al igual que en el comando "git status" normal, si sale en rojo
+                    es que no está en la etapa "Stage", y si sale en verde es que sí lo está (habiéndose ejecutado "git add"). Si sale
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git add</texto>
+                <explicacion>
+                    Lleva el archivo a la fase "stage". Se escribe el nombre del archivo después del comando. También se puede usar una expresión regular como ".txt",
+                    que llevaría a la fase "stage" todos los archivos con extensión ".txt". El comando "git add ." trasladaría a la etapa stage todos los archivos que
+                    salgan en el listado de "untracked files", escritos en rojo, que sale al ejecutar el comando git status, y pasarían a estar listos para ser
+                    comprometidos (commit).
+
+                    IMPORTANTE: ejecutar el comando "git add ." se considera una mala práctica porque podríamos estar añadiendo archivos a los que hemos hecho
+                    modificaciones de las cuales no nos acordamos bien o no hemos hecho de forma sistemática y controlada, y también porque podríamos estar añadiendo
+                    archivos enormes, como ejecutables, al repositorio. Esto lo que haría es aumentar el tamaño del repositorio de manera innecesaria.
+                </explicacion>
+                <ejemplo>git add archivo1.txt</ejemplo>
+                <ejemplo>git add .txt</ejemplo>
+                <ejemplo>git add .</ejemplo>
+                <ejemplo>git add archivo1.txt archivo2.txt <!--Esto es para añadir más de un archivo a la vez--></ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git commit -m "Un texto que tenga sentido"</texto>
+                <explicacion>
+                    Pasa los archivos que estén en la etapa "Stage" a la etapa "Commit".
+
+                    Si se escribe solamente "git commit" y se ejecuta, se abrirá el editor de texto predeterminado (en este caso visual studio code) y nos pedirá que
+                    escribamos un mensaje asociado al commit.
+                </explicacion>
+                <ejemplo>git commit -m "Commit inicial"</ejemplo>
+                <ejemplo>git commit</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>rm</texto>
+                <explicacion>
+                    Elimina un archivo. El archivo que se elimina es el que se escriba después del comando.
+                </explicacion>
+                <ejemplo>rm archivo2.txt</ejemplo>
+            </comando>
+
+            <comando>
+               <texto>git rm</texto>
+               <explicacion>
+                    Sirve para que al eliminar un archivo también la eliminación pase a la fase "Stage", sin necesidad de hacer luego un git add tras haberlo eliminado.
+                    La diferencia entre "rm" y "git rm" es que con el primero se elimina el archivo de tu directorio, pero ese cambio no se ve reflejado en la fase
+                    "Stage", y si se hiciera un commit se haría del archivo, no de la eliminación del archivo. Con "git rm", al eliminarlo también está actualizada la
+                    situación en la fase "Stage", y al hacerse un commit se haría un commit de la eliminación del archivo.
+               </explicacion>
+               <ejemplo>git rm archivo2.txt</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git restore --staged</texto>
+                <explicacion>
+                    Para sacar una modificación de la etapa "Stage".
+                </explicacion>
+                <ejemplo>git restore --staged archivo1.txt</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git restore</texto>
+                <explicacion>
+                    Para recuperar un archivo borrado del directorio.
+                </explicacion>
+                <ejemplo>git restore archivo1.txt</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>mv oldname newname</texto>
+                <explicacion>
+                    Para mover un archivo o cambiar su nombre.
+                </explicacion>
+                <ejemplo>mv archivo1.txt archivo.txt</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git mv oldname newname</texto>
+                <explicacion>
+                    Para mover un archivo o cambiar su nombre, y los cambios se suban directamente a la etapa "Stage" sin necesidad de usar posteriormente el comando
+                    "git add".
+                </explicacion>
+                <ejemplo>git mv archivo1.txt archivo.txt</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git diff</texto>
+                <explicacion>
+                    Nos dice los cambios que ha habido y que se subirán a la etapa "Stage" la próxima vez que ejecutemos el comando "git add". Es decir, lo que sale en
+                    rojo al ejecutar "git status".
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git diff --staged</texto>
+                <explicacion>
+                    Nos dice los cambios que hay en la etapa "Stage", es decir, lo que sale en verde al ejecutar "git status".
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git log</texto>
+                <explicacion>
+                    Muestra los commit que se han hecho. Es un historial.
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git log --oneline</texto>
+                <explicacion>
+                    Es como "git log", pero resumido.
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git branch</texto>
+                <explicacion>
+                    Para comprobar en qué rama estamos.
+                </explicacion>
+            </comando>
+
+            <comando>
+                <texto>git checkout -b</texto>
+                <explicacion>
+                    Para crear una rama nueva, el nombre se pone después del comando.
+                </explicacion>
+                <ejemplo>git checkout -b ramab</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git checkout</texto>
+                <explicacion>
+                    Para cambiar de rama, el nombre se pone después del comando.
+                </explicacion>
+                <ejemplo>git checkout master <!--La rama master también puede llamarse rama main--> </ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git merge</texto>
+                <explicacion>
+                    Se escribe en la rama a la que se quiere importar el contenido de otra rama. Se importa la rama que se se escriba a continuación del comando.
+                </explicacion>
+                <ejemplo>git merge ramab</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>cat</texto>
+                <explicacion>
+                    Muestra el contenido del archivo que se escribe a continuación del comando.
+                </explicacion>
+                <ejemplo>cat archivo2.txt</ejemplo>
+            </comando>
+
+        </comandos>
+        
+
+        <extra>
+            <objetivo fin="Ignorar archivos para que nunca sean incluidos en nuestros repositorios de Git, y no los subamos por accidente. Esto es muy útil cuando
+            tenemos archivos con información privada que no queremos que se suban a un repositorio central">
+                <paso instruccion="Crear un archivo de ejemplo en VSC">
+                    <explicacion>
+                        Como '.env', que suele usarse para variables de entorno. Se crea en la carpeta de nuestro espacio de trabajo Git. Al hacer esto, lógicamente
+                        veríamos que al ejecutar "Git status" veríamos que el archivo .env saldría en la lista de "untracked files".
+                    </explicacion>
+                </paso>
+
+                <paso instruccion="Crear un archivo .gitignore en VSC">
+                    <explicacion>
+                        Aquí se van a incluir todos los archivos y carpetas que queramos que se ignoren y nunca se suban al repositorio. Aquí incluiríamos el archivo
+                        .env que hemos creado. Una vez hecho esto, al ejectuar git status, veríamos que ya no aparece el .env en el listado de "untacked files", sino
+                        solo el .gitignore en el que lo hemos incluido.
+                    </explicacion>
+                </paso>
+
+                <paso instruccion="Subir el archivo .gitignore a la fase 'Stage' y hacer un commit">
+                    <explicacion>
+                        Con esto garantizamos que no se subirán archivos no deseados accidentalmente al repositorio.
+                    </explicacion>
+                </paso>
+            </objetivo>
+
+            <objetivo fin="Conectar con GitHub">
+                <paso instruccion="Crear un repositorio en GitHub"/>
+                
+                <paso instruccion="Escribir en la consola el comando 'git remote add origin https://github.com/AlvAnton/miWeb.git'">
+                    <explicacion>
+                        Aquí se establece el repositorio con el que se va a trabajar en el proyecto.
+                    </explicacion>
+                </paso>
+
+                <paso instruccion="Crear la rama master">
+                    <explicacion>
+                        Se ejecuta en gitBash el comando "git push -u origin master". El comando "git push" se usa para subir cambios al repositorio. La opción "-u" crea
+                        la rama, "origin" indica dónde queremos que se cree, y el nombre de la rama será "master".
+                    </explicacion>
+                </paso>
+
+                <paso instruccion="Crear otras ramas">
+                    <explicacion>
+                        Se ejecuta en gitBash el comando "git push -u origin nombreRama".
+                    </explicacion>
+                </paso>
+
+                <paso instruccion="Subir cosas a GitHub">
+                    <explicacion>
+                        Se modifican archivos con Visual Studio Code, después se añade a la etapa "Stage" ("git add") y luego se hace un commit. Una vez hecho el commit
+                        se sube a GitHub con "git push" desde gitBash.
+                    </explicacion>
+                </paso>
+            </objetivo>
+        </extra>
+    </flujoGit>
+
+    
+</comandosGit>

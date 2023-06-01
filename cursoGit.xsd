@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="comandosGit">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="comandosConfig">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="comando" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="texto" type="xs:string"/>
+                                        <xs:element name="explicacion" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="comandosGenerales">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="comando" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="texto" type="xs:string"/>
+                                        <xs:element name="explicacion" type="xs:string"/>
+                                        <xs:element name="ejemplo" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="flujoGit">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="etapas">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="etapa" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="nombre" type="xs:string"/>
+                                                    <xs:element name="explicacion" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="comandos">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="comando" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="texto" type="xs:string"/>
+                                                    <xs:element name="explicacion" type="xs:string"/>
+                                                    <xs:element name="ejemplo" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="extra">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="objetivo" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="paso" minOccurs="0" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="explicacion" type="xs:string" minOccurs="0"/>
+                                                                <xs:element name="ejemplo" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+                                                            </xs:sequence>
+                                                            <xs:attribute name="instruccion" type="xs:string" use="required"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="fin" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="definicion" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
