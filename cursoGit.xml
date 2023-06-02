@@ -333,6 +333,22 @@ xsi:noNamespaceSchemaLocation="cursoGit.xsd">
             </comando>
 
             <comando>
+                <texto>git branch -d</texto>
+                <explicacion>
+                    Elimina una rama local, pero solamente si ya se ha fusionado "merge" con el "upstream branch".
+                </explicacion>
+                <ejemplo>git branch -d rama2</ejemplo>
+            </comando>
+
+            <comando>
+                <texto>git branch -D</texto>
+                <explicacion>
+                    Es un alias de "--delete --force", y elimina la rama sin importar si se ha fusionado o no.
+                </explicacion>
+                <ejemplo>git branch -D rama2</ejemplo>
+            </comando>
+
+            <comando>
                 <texto>cat</texto>
                 <explicacion>
                     Muestra el contenido del archivo que se escribe a continuación del comando.
@@ -388,6 +404,13 @@ xsi:noNamespaceSchemaLocation="cursoGit.xsd">
                     <explicacion>
                         Se ejecuta en gitBash el comando "git push -u origin nombreRama".
                     </explicacion>
+                </paso>
+
+                <paso instruccion="Eliminar ramas en el repositorio remoto de GitHub">
+                    <explicacion>
+                        Se ejecuta con el comando "git push nombreRepositorioRemoto --delete nombreRama".
+                    </explicacion>
+                    <ejemplo>git push https://github.com/AlvAnton/Resumen-ProgramacionJava.git --delete rama2</ejemplo>
                 </paso>
 
                 <paso instruccion="Subir cosas a GitHub">
